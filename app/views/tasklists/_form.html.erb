@@ -1,0 +1,23 @@
+<%= form_for(tasklist) do |f| %>
+
+<% if tasklist.errors.any? %>
+
+<div id="error_explanation">
+    <ul>
+        <% tasklist.errors.full_tasklists.each do |tasklist| %>
+        
+        <li>
+            <%= tasklist %>
+        </li>
+            <% end %>
+    </ul>
+</div>
+
+<% end %>
+
+<%= f.label :status, 'ステータス' %>
+<%= f.text_field :status %>
+<%= f.label :Content, 'タスク' %>
+<%= f.text_field :Content %>
+<%= f.submit '登録' %>
+<% end %>
