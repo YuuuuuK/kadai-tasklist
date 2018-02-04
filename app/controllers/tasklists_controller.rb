@@ -2,7 +2,7 @@ class TasklistsController < ApplicationController
     before_action :set_tasklist, only: [:show, :edit, :update, :destroy]
     
     def index
-        @tasklists = Tasklist.all
+        @tasklists = Tasklist.order('created_at DESC').page(params[:page])
     end
     def show
         set_tasklist
