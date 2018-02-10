@@ -2,7 +2,11 @@ class TasklistsController < ApplicationController
     before_action :set_tasklist, only: [:show, :edit, :update, :destroy]
     
     def index
-        @tasklists = Tasklist.order('created_at DESC').page(params[:page])
+     if logged_in?
+         @user = current_user
+         @tasklist = current_user.tasklists.build
+         @tasklists = current_user.tasklists.order('created_at DESC').page(params[:page])
+     end
     end
     def show
         set_tasklist
@@ -11,12 +15,13 @@ class TasklistsController < ApplicationController
         @tasklist = Tasklist.new
     end
     def create
-        @tasklist = Tasklist.new(tasklist_params)
+        @tasklist = current_user.tasklists.build(tasklist_params)
         
         if @tasklist.save
             flash[:success] = "タスクが正常に登録されました"
             redirect_to @tasklist
         else
+            @tasklists = current_user.feed_tasklists.order('created_at DESC').page(params[:page])
             flash.now[:danger] = "タスクが登録されませんでした"
             render :new
         end

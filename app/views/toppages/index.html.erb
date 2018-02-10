@@ -1,5 +1,31 @@
 <% if logged_in? %>
-  <p>ログイン完了ユーザ: <%= current_user.name %></p>
+  <h1><%= @user.name %>のタスク一覧</h1>
+
+<% if @tasklists.any? %>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>id</th>
+        <th>ステータス</th>
+        <th>タスク</th>
+      </tr>
+    </thead>
+    <tbody>
+    <% @tasklists.each do |tasklist| %>
+    <tr>
+        <td><%= link_to tasklist.id, tasklist %></td>
+        <td><%= tasklist.status %></td>
+        <td><%= tasklist.Content %></td>
+    </tr>
+    <% end %>
+    </tbody>
+  </table>
+  <div>
+    <%= paginate @tasklists %>
+  </div>
+<% end %>
+
+<%= link_to '新規タスクの登録', new_tasklist_path %>
 <% else %>
   <div class="center jumbotron">
     <div class="text-center">
