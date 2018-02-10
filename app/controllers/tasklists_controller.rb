@@ -21,7 +21,6 @@ class TasklistsController < ApplicationController
             flash[:success] = "タスクが正常に登録されました"
             redirect_to @tasklist
         else
-            @tasklists = current_user.feed_tasklists.order('created_at DESC').page(params[:page])
             flash.now[:danger] = "タスクが登録されませんでした"
             render :new
         end
