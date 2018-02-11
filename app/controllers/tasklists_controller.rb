@@ -1,4 +1,6 @@
 class TasklistsController < ApplicationController
+    before_action :require_user_logged_in
+    before_action :correct_user, only: [:show, :edit, :update, :destroy]
     before_action :set_tasklist, only: [:show, :edit, :update, :destroy]
     
     def index
@@ -48,6 +50,13 @@ class TasklistsController < ApplicationController
     end
     
     private
+    def correct_user
+      @tasklist = current_user.tasklists.find_by(id: params[:id])
+      unless @tasklist
+      redirect_to root_url
+      end
+    end
+    
     def set_tasklist
         @tasklist = Tasklist.find(params[:id])
     end
